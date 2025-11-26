@@ -81,7 +81,7 @@ while True:
             elif state == "PLAYING":
                 if game_board:
                     row_col = game_board.click(mouse_pos[0], mouse_pos[1])
-                    if row_col is not Nonw:
+                    if row_col is not None:
                         row, col = row_col
                         game_board.select(row, col)
 
@@ -98,5 +98,6 @@ while True:
 
 
     pygame.display.update()
+
 
 
