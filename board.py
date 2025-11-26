@@ -122,3 +122,4 @@ class Board:
     def check_board(self):
         self.update_board()
         return self.board == self.solution
+
