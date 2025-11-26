@@ -80,7 +80,10 @@ while True:
 
             elif state == "PLAYING":
                 if game_board:
-                    game_board.select_cell(mouse_pos)
+                    row_col = game_board.click(mouse_pos[0], mouse_pos[1])
+                    if row_col:
+                        row, col = row_col
+                        game_board.select(row, col)
 
 
     screen.fill(white)
@@ -95,3 +98,4 @@ while True:
 
 
     pygame.display.update()
+
