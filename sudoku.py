@@ -71,17 +71,17 @@ while True:
                 if easybutton and easybutton.collidepoint(mouse_pos):
                     state = "PLAYING"
                     game_board = Board(540, 540, screen, "easy")
-                if mediumbutton and mediumbutton.collidepoint(mouse_pos):
+                elif mediumbutton and mediumbutton.collidepoint(mouse_pos):
                     state = "PLAYING"
                     game_board = Board(540, 540, screen, "medium")
-                if hardbutton and hardbutton.collidepoint(mouse_pos):
+                elif hardbutton and hardbutton.collidepoint(mouse_pos):
                     state = "PLAYING"
                     game_board = Board(540, 540, screen, "hard")
 
             elif state == "PLAYING":
                 if game_board:
                     row_col = game_board.click(mouse_pos[0], mouse_pos[1])
-                    if row_col:
+                    if row_col is not Nonw:
                         row, col = row_col
                         game_board.select(row, col)
 
@@ -98,4 +98,5 @@ while True:
 
 
     pygame.display.update()
+
 
