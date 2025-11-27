@@ -56,9 +56,6 @@ def startscreen(state):
     screen.blit(hardtext, hardtext_rect)
     return easybutton, mediumbutton, hardbutton
 
-
-
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #allows for user to click out of sudoku
@@ -84,8 +81,27 @@ while True:
                     if row_col is not None:
                         row, col = row_col
                         game_board.select(row, col)
-
-
+        #List of Key Strokes
+        key_strokes = {
+                1073741906: (-1, 0),
+                1073741905: (1, 0),
+                1073741904: (0, -1),
+                1073741903: (0, 1)
+        }
+        
+        if state == "PLAYING":
+            #Sketch
+            if event.type == pygame.TEXTINPUT:
+                game_board.sketch(event.text)
+            if event.type == pygame.KEYDOWN and game_board.selected:
+                r,c = game_board.selected
+                #Place
+                if event.key == pygame.K_RETURN:
+                    game_board.place_number(game_board.cells[r][c].sketched_value)
+                #Arrow Keys
+                if event.type == pygame.KEYDOWN and event.key in key_strokes.keys():
+                    game_board.select((r+key_strokes[event.key][0])%9,(c+key_strokes[event.key][1])%9)
+          
     screen.fill(white)
 
     if state == "START":
@@ -94,8 +110,6 @@ while True:
     if state == "PLAYING":
         if game_board:
             game_board.draw()
-
-
 
     pygame.display.update()
 
