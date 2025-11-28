@@ -18,7 +18,7 @@ state = "START"
 easybutton, mediumbutton, hardbutton, exitBtn, restartBtn, resetBtn = [None] * 6
 game_board = None
 
-def startscreen(state):
+def startscreen():
     white = (255, 255, 255)
     black = (0, 0, 0)
     screen.fill(white)
