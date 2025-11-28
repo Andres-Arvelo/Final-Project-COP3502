@@ -3,6 +3,7 @@ from pygame.key import start_text_input
 from sudoku_generator import SudokuGenerator
 from cell import Cell
 from board import Board
+import math
 
 
 pygame.init()
@@ -17,11 +18,23 @@ screen.fill(white)
 state = "START"
 easybutton, mediumbutton, hardbutton, exitBtn, restartBtn, resetBtn = [None] * 6
 game_board = None
+gridSmall = pygame.transform.smoothscale(pygame.image.load('./assets/SudokuGrid.bmp'), (60, 60))
+centers = [[270,300],[100,150],[300,150],[500,70],[400,500],[150,400],[50,250],[450,350]]
+angle = 0
+def background():
+    global angle
+    global centers
+    angle = (angle+0.003) % (2*math.pi)
+    for center in centers:
+        screen.blit(gridSmall, (center[0], center[1]))
+        center[0] = (center[0]+math.cos(angle)) % 540
+        center[1] = (center[1]+math.sin(angle)) % 600
 
 def startscreen():
     white = (255, 255, 255)
     black = (0, 0, 0)
     screen.fill(white)
+    background()
     font = pygame.font.SysFont('arial', 36)
 
     text = font.render("START", True, black)
@@ -60,6 +73,7 @@ def gameWinScreen():
     white = (255, 255, 255)
     black = (0, 0, 0)
     screen.fill(white)
+    background()
     font = pygame.font.SysFont('arial', 36)
 
     text = font.render("Game Won!", True, black)
@@ -81,6 +95,7 @@ def gameOverScreen():
     white = (255, 255, 255)
     black = (0, 0, 0)
     screen.fill(white)
+    background()
     font = pygame.font.SysFont('arial', 36)
 
     text = font.render("Game Over :(", True, black)
