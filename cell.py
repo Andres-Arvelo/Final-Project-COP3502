@@ -24,6 +24,7 @@ class Cell:
             self.sketched_value = value
 
     def draw(self, cell_size):
+        colorscheme = [[(0,0,0),(110,110,110)],[(84, 136, 227),(84,175,227)]]
         x = self.col * cell_size
         y = self.row * cell_size
 
@@ -32,12 +33,12 @@ class Cell:
                              (x, y, cell_size, cell_size), 3)
 
         if self.value != 0:
-            text = self.value_font.render(str(self.value), True, (0, 0, 0))
+            text = self.value_font.render(str(self.value), True, colorscheme[int(self.editable)][0])
             rect = text.get_rect(center=(x + cell_size/2, y + cell_size/2))
             self.screen.blit(text, rect)
 
         elif self.sketched_value != 0:
             text = self.sketch_font.render(str(self.sketched_value),
-                                           True, (110, 110, 110))
+                                           True, colorscheme[int(self.editable)][1])
 
             self.screen.blit(text, (x + 4, y + 2))
