@@ -187,7 +187,7 @@ while True:
     screen.fill(white)
 
     if state == "START":
-        easybutton, mediumbutton, hardbutton = startscreen(state)
+        easybutton, mediumbutton, hardbutton = startscreen()
     
     elif state == "WIN":
         exitBtn = gameWinScreen()
