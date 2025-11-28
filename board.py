@@ -121,5 +121,17 @@ class Board:
 
     def check_board(self):
         self.update_board()
-        return self.board == self.solution
+        correct = [i+1 for i in range(9)]
+        for r in range(9):
+            if (sorted(self.board[r]) != correct):
+                return False
+        for c in range(9):
+            if (sorted(self.board[i][c] for i in range(9)) != correct):
+                return False
+        for mr in range(3):
+            for mc in range(3):
+                if sorted([self.board[3*mr+i][3*mc+j] for j in range(3) for i in range(3)])!= correct:
+                    return False
+        return True
+        
 
