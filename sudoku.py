@@ -15,7 +15,7 @@ screen = pygame.display.set_mode((540, 600)) #Creates the screen
 pygame.display.set_caption("Sudoku") #makes the caption
 screen.fill(white)
 state = "START"
-easybutton, mediumbutton, hardbutton = None, None, None
+easybutton, mediumbutton, hardbutton, exitBtn, restartBtn = [None] * 5
 game_board = None
 
 def startscreen(state):
@@ -56,6 +56,48 @@ def startscreen(state):
     screen.blit(hardtext, hardtext_rect)
     return easybutton, mediumbutton, hardbutton
 
+def gameWinScreen():
+    white = (255, 255, 255)
+    black = (0, 0, 0)
+    screen.fill(white)
+    font = pygame.font.SysFont('arial', 36)
+
+    text = font.render("Game Won!", True, black)
+    text_rect = text.get_rect()
+    text_rect.centerx = 270
+    text_rect.centery = 150
+    screen.blit(text, text_rect) 
+
+    #ExitButton
+    exitBtn = pygame.Rect(210, 400, 120, 40)
+    pygame.draw.rect(screen, orange, exitBtn)
+    exitTxt = font.render("Exit", True, black)
+
+    exitTxt_rect = exitTxt.get_rect(center = exitBtn.center)
+    screen.blit(exitTxt, exitTxt_rect)
+    return exitBtn
+
+def gameOverScreen():
+    white = (255, 255, 255)
+    black = (0, 0, 0)
+    screen.fill(white)
+    font = pygame.font.SysFont('arial', 36)
+
+    text = font.render("Game Over :(", True, black)
+    text_rect = text.get_rect()
+    text_rect.centerx = 270
+    text_rect.centery = 150
+    screen.blit(text, text_rect) 
+
+    #ExitButton
+    restartBtn = pygame.Rect(210, 400, 120, 40)
+    pygame.draw.rect(screen, orange, restartBtn)
+    restartTxt = font.render("Restart", True, black)
+
+    restartTxt_rect = restartTxt.get_rect(center = restartBtn.center)
+    screen.blit(restartTxt, restartTxt_rect)
+    return restartBtn
+ 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #allows for user to click out of sudoku
@@ -74,7 +116,13 @@ while True:
                 elif hardbutton and hardbutton.collidepoint(mouse_pos):
                     state = "PLAYING"
                     game_board = Board(540, 540, screen, "hard")
-
+            elif state == "WIN":
+                if exitBtn and exitBtn.collidepoint(mouse_pos):
+                    pygame.quit()
+                    sys.exit()
+            elif state == "LOSE":
+                if restartBtn and restartBtn.collidepoint(mouse_pos):
+                    state = "START"
             elif state == "PLAYING":
                 if game_board:
                     row_col = game_board.click(mouse_pos[0], mouse_pos[1])
@@ -106,10 +154,26 @@ while True:
 
     if state == "START":
         easybutton, mediumbutton, hardbutton = startscreen(state)
+    
+    elif state == "WIN":
+        exitBtn = gameWinScreen()
+    
+    elif state == "LOSE":
+        restartBtn = gameOverScreen()
 
-    if state == "PLAYING":
+    elif state == "PLAYING":
         if game_board:
             game_board.draw()
+            if game_board.is_full():
+                print("isfull")
+                if game_board.check_board():
+                    print('win')
+                    state = "WIN"
+                else:
+                    print('lose')
+                    state = "LOSE"
+
+
 
     pygame.display.update()
 
