@@ -140,7 +140,8 @@ while True:
         if state == "PLAYING":
             #Sketch
             if event.type == pygame.TEXTINPUT:
-                game_board.sketch(event.text)
+                if (event.text.isdigit()):
+                    game_board.sketch(int(event.text))
             if event.type == pygame.KEYDOWN and game_board.selected:
                 r,c = game_board.selected
                 #Place
@@ -165,12 +166,9 @@ while True:
         if game_board:
             game_board.draw()
             if game_board.is_full():
-                print("isfull")
                 if game_board.check_board():
-                    print('win')
                     state = "WIN"
                 else:
-                    print('lose')
                     state = "LOSE"
 
 
